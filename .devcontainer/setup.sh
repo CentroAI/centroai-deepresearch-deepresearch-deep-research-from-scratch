@@ -7,7 +7,8 @@ echo "  Deep Research From Scratch — Setup"
 echo "=========================================="
 echo ""
 
-WORKDIR=/workspaces/deep-research-from-scratch
+# Dynamic path resolution: uses the directory where the script execution starts
+WORKDIR=$(pwd)
 VENV="$WORKDIR/.venv"
 
 # ── 1. Install uv ──────────────────────────────────────────────────────────────
@@ -42,6 +43,6 @@ echo "✅ Kernel registered."
 echo ""
 echo "=========================================="
 echo "  Setup complete!"
-echo "  Open notebooks/1_scoping.ipynb to start."
+echo "  Open notebooks/0_AgentesIA_UVa_I_Agente_Simple_Langchain.ipynb to start."
 echo "=========================================="
 echo ""
