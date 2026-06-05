@@ -70,7 +70,7 @@ def clarify_with_user(state: AgentState) -> Command[Literal["write_research_brie
 # NODE 2 — write_research_brief
 # Purpose : distil the conversation into a research brief
 # Reads   : state["messages"]  (the full conversation)
-# Writes  : research_brief, supervisor_messages
+# Writes  : research_brief
 # Routes  : always → END  (no decision needed, plain dict return)
 # ══════════════════════════════════════════════════════
 
@@ -90,8 +90,6 @@ def write_research_brief(state: AgentState):
     # Step 3 — write to state (plain dict, no routing decision needed)
     return {
         "research_brief": response.research_brief,
-        # Also forward the brief to Phase 2 via supervisor_messages
-        "supervisor_messages": [HumanMessage(content=f"{response.research_brief}.")]
     }
 
 
