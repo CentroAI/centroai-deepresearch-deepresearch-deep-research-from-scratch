@@ -1,12 +1,9 @@
 
 """State Definitions and Pydantic Schemas for Research Scoping."""
 
-import operator
 from typing_extensions import Optional, Annotated, Sequence
 
-from langchain_core.messages import BaseMessage
 from langgraph.graph import MessagesState
-from langgraph.graph.message import add_messages
 from pydantic import BaseModel, Field
 
 
@@ -20,23 +17,15 @@ class AgentInputState(MessagesState):
 
 
 class AgentState(MessagesState):
-    """The full internal whiteboard — read and written by every node.
-
-    Fields marked with operator.add are MERGED (not overwritten) when
-    multiple parallel agents write to them at the same time.
-    """
+    """The full internal whiteboard — read and written by every node."""
 
     # ── Phase 1: Scoping ─────────────────────────────────────────
-    # Written by write_research_brief, read by Phase 2 agents
+    # Written by write_research_brief, read by the research phase
     research_brief: Optional[str]
 
-    # ── Phase 2: Research coordination ──────────────────────────
-    # Uses add_messages → new messages are appended, never replaced
-    supervisor_messages: Annotated[Sequence[BaseMessage], add_messages]
-
-    # Uses operator.add → lists from parallel agents are concatenated
-    raw_notes: Annotated[list[str], operator.add] = []
-    notes:     Annotated[list[str], operator.add] = []
+    # ── Phase 2: Research ────────────────────────────────────────
+    # Compressed research summary passed to the report node
+    notes: list[str]
 
     # ── Phase 3: Output ──────────────────────────────────────────
     final_report: str

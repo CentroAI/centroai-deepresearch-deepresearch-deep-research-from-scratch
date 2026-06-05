@@ -25,7 +25,7 @@ writer_model = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.0, max_to
 # BRIDGE NODE — run_research
 # Connects Phase 1 (AgentState) to Phase 2 (ResearcherState)
 # Reads  : state["research_brief"]
-# Writes : state["notes"], state["raw_notes"]
+# Writes : state["notes"]  ← compressed research for report generation
 # ══════════════════════════════════════════════════════
 
 def run_research(state: AgentState) -> dict:
@@ -40,8 +40,7 @@ def run_research(state: AgentState) -> dict:
 
     # Bridge the results back into AgentState
     return {
-        "notes":     [result["compressed_research"]],   # ← store as a list item
-        "raw_notes": result["raw_notes"],                # ← raw tool outputs
+        "notes": [result["compressed_research"]],  # store as list — final_report_generation joins it
     }
 
 

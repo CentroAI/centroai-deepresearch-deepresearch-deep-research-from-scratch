@@ -4,7 +4,7 @@
 from typing_extensions import Literal
 
 from langgraph.graph import StateGraph, START, END
-from langchain_core.messages import SystemMessage, HumanMessage, ToolMessage, filter_messages
+from langchain_core.messages import SystemMessage, HumanMessage, ToolMessage
 from langchain_groq import ChatGroq
 
 from deep_research_from_scratch.state_research import ResearcherState, ResearcherOutputState
@@ -89,15 +89,8 @@ def compress_research(state: ResearcherState) -> dict:
     )
     response = compress_model.invoke(messages)
 
-    # Save raw tool and AI messages as notes for later reference
-    raw_notes = [
-        str(m.content)
-        for m in filter_messages(state["researcher_messages"], include_types=["tool", "ai"])
-    ]
-
     return {
         "compressed_research": str(response.content),
-        "raw_notes": ["\n".join(raw_notes)],
     }
 
 

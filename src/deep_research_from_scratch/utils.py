@@ -70,7 +70,7 @@ def summarize_webpage_content(webpage_content: str) -> str:
     if len(webpage_content) > MAX_CONTENT_CHARS:
         truncated += "\n...[content truncated to fit token limit]"
     try:
-        structured_model = summarization_model.with_structured_output(Summary)
+        structured_model = summarization_model.with_structured_output(Summary, method="json_mode")
         summary = structured_model.invoke([
             HumanMessage(content=summarize_webpage_prompt.format(
                 webpage_content=truncated,
