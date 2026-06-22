@@ -40,7 +40,7 @@ model = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.0)
 def clarify_with_user(state: AgentState) -> Command[Literal["write_research_brief", "__end__"]]:
 
     # Step 1 — attach the schema (the "form") to the model
-    structured_model = model.with_structured_output(ClarifyWithUser)
+    structured_model = model.with_structured_output(ClarifyWithUser, method="json_mode")
 
     # Step 2 — invoke with the prompt filled from state
     response = structured_model.invoke([

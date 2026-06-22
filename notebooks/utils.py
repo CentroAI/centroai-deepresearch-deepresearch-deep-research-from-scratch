@@ -79,3 +79,81 @@ def show_prompt(prompt_text: str, title: str = "Prompt", border_style: str = "bl
         border_style=border_style,
         padding=(1, 2)
     ))
+
+
+def show_command_demo():
+    """
+    Display an interactive widget comparing a vague vs. specific user message
+    and the resulting Command(goto=..., update=...) returned by clarify_with_user.
+
+    Two buttons let the user toggle between the two example cases and see how
+    `goto` and `update` change depending on whether clarification is needed.
+    """
+    import ipywidgets as widgets
+    from IPython.display import display, HTML
+
+    # Two example cases mirroring real clarify_with_user behaviour
+    cases = {
+        "vague": {
+            "user_message": "I want to research AI in healthcare.",
+            "need_clarification": True,
+            "goto": "END",
+            "update_preview": (
+                'messages: [AIMessage("Could you clarify which area of healthcare? '
+                'E.g. diagnostics, drug discovery, patient monitoring...")]'
+            ),
+            "color": "#FAECE7",
+            "text_color": "#712B13",
+        },
+        "specific": {
+            "user_message": (
+                "Research AI tools for early sepsis detection in ICU patients, "
+                "comparing accuracy across studies from 2023-2025."
+            ),
+            "need_clarification": False,
+            "goto": "write_research_brief",
+            "update_preview": 'messages: [AIMessage("Got it — starting the research now.")]',
+            "color": "#E1F5EE",
+            "text_color": "#085041",
+        },
+    }
+
+    output = widgets.Output()
+
+    def render(case_key):
+        c = cases[case_key]
+        output.clear_output()
+        with output:
+            display(HTML(f"""
+            <div style="font-family: sans-serif; max-width: 560px;">
+                <p style="font-size:13px; color:#888; margin:0 0 4px;">User message</p>
+                <p style="font-size:15px; font-weight:600; margin:0 0 16px;">"{c['user_message']}"</p>
+
+                <p style="font-size:13px; color:#888; margin:0 0 4px;">
+                    need_clarification =
+                    <span style="background:{c['color']}; color:{c['text_color']}; padding:2px 8px; border-radius:6px; font-weight:600;">
+                        {c['need_clarification']}
+                    </span>
+                </p>
+
+                <div style="border:1px solid #ddd; border-radius:10px; padding:12px 16px; margin-top:16px;">
+                    <p style="font-size:13px; color:#888; margin:0 0 10px; font-weight:600;">Command object returned</p>
+                    <p style="font-family:monospace; font-size:13px; margin:0 0 8px;">
+                        goto = <span style="background:{c['color']}; color:{c['text_color']}; padding:2px 8px; border-radius:6px;">"{c['goto']}"</span>
+                    </p>
+                    <p style="font-family:monospace; font-size:13px; margin:0;">
+                        update = {{{c['update_preview']}}}
+                    </p>
+                </div>
+            </div>
+            """))
+
+    btn_vague = widgets.Button(description="Vague message")
+    btn_specific = widgets.Button(description="Specific message")
+
+    btn_vague.on_click(lambda b: render("vague"))
+    btn_specific.on_click(lambda b: render("specific"))
+
+    display(widgets.HBox([btn_vague, btn_specific]))
+    display(output)
+    render("vague")  # show the vague case by default
