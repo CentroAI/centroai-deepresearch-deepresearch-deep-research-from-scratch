@@ -1,7 +1,6 @@
 
 """Research Utilities and Tools."""
 
-from pathlib import Path
 from datetime import datetime
 from typing_extensions import Annotated, List
 
@@ -22,19 +21,13 @@ def get_today_str() -> str:
     """Return today's date as a readable string (Windows-safe)."""
     return datetime.now().strftime("%a %b %d, %Y").replace(" 0", " ")
 
-def get_current_dir() -> Path:
-    try:
-        return Path(__file__).resolve().parent
-    except NameError:
-        return Path.cwd()
-
 
 # ══════════════════════════════════════════════════════
 # MODEL & CLIENT CONFIGURATION
 # ══════════════════════════════════════════════════════
 
 # Used ONLY for webpage summarisation — a light structured output task
-summarization_model = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.0)
+summarization_model = ChatGroq(model="llama-3.1-8b-instant", temperature=0.0)
 
 # Tavily reads TAVILY_API_KEY from os.environ automatically
 tavily_client = TavilyClient()

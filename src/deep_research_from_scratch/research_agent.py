@@ -7,7 +7,7 @@ from langgraph.graph import StateGraph, START, END
 from langchain_core.messages import SystemMessage, HumanMessage, ToolMessage
 from langchain_groq import ChatGroq
 
-from deep_research_from_scratch.state_research import ResearcherState, ResearcherOutputState
+from deep_research_from_scratch.state_research import ResearcherState
 from deep_research_from_scratch.utils import tavily_search, get_today_str, think_tool
 from deep_research_from_scratch.prompts import (
     research_agent_prompt,
@@ -111,7 +111,7 @@ def should_continue(state: ResearcherState) -> Literal["tool_node", "compress_re
 # GRAPH CONSTRUCTION
 # ══════════════════════════════════════════════════════
 
-agent_builder = StateGraph(ResearcherState, output_schema=ResearcherOutputState)
+agent_builder = StateGraph(ResearcherState)
 
 agent_builder.add_node("llm_call",          llm_call)
 agent_builder.add_node("tool_node",         tool_node)

@@ -1,7 +1,7 @@
 
-"""State Definitions and Pydantic Schemas for Research Scoping."""
+"""State Definitions for Research Scoping."""
 
-from typing_extensions import Optional, Annotated, Sequence
+from typing_extensions import Optional
 
 from langgraph.graph import MessagesState
 from pydantic import BaseModel, Field
@@ -29,7 +29,6 @@ class AgentState(MessagesState):
 
     # ── Phase 3: Output ──────────────────────────────────────────
     final_report: str
-
 
 # ══════════════════════════════════════════════════════
 # STRUCTURED OUTPUT SCHEMAS — the forms

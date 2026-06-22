@@ -12,15 +12,9 @@ from langgraph.graph.message import add_messages
 # ══════════════════════════════════════════════════════
 
 class ResearcherState(TypedDict):
-    """Internal whiteboard — everything the agent tracks while working."""
+    """The research agent's whiteboard — read and written by every node."""
     researcher_messages: Annotated[Sequence[BaseMessage], add_messages]
     compressed_research: str         # final compressed summary
-
-
-class ResearcherOutputState(TypedDict):
-    """Clean handoff package — only results, no internal bookkeeping."""
-    compressed_research: str
-    researcher_messages: Annotated[Sequence[BaseMessage], add_messages]
 
 
 # ══════════════════════════════════════════════════════
