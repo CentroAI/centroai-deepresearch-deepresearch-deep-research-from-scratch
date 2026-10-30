@@ -18,7 +18,7 @@ from deep_research_from_scratch.research_agent import researcher_agent
 # ══════════════════════════════════════════════════════
 
 # Same model as the rest of the course — consistent and free
-writer_model = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.0, max_tokens=4000)
+writer_model = ChatGroq(model="openai/gpt-oss-120b", temperature=0.0, reasoning_effort="low", max_tokens=4000)
 
 
 # ══════════════════════════════════════════════════════
