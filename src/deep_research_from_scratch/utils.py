@@ -27,7 +27,7 @@ def get_today_str() -> str:
 # ══════════════════════════════════════════════════════
 
 # Used ONLY for webpage summarisation — a light structured output task
-summarization_model = ChatGroq(model="llama-3.1-8b-instant", temperature=0.0)
+summarization_model = ChatGroq(model="openai/gpt-oss-20b", temperature=0.0, reasoning_effort="low")
 
 # Tavily reads TAVILY_API_KEY from os.environ automatically
 tavily_client = TavilyClient()
@@ -54,7 +54,7 @@ def tavily_search_multiple(
     return search_docs
 
 
-# Groq free tier: ~12k TPM. 6 000 chars ≈ 1 500 tokens — safe margin.
+# Groq free tier: 8K TPM per model. 8 000 chars ≈ 2 000 tokens — safe margin.
 MAX_CONTENT_CHARS = 8_000
 
 def summarize_webpage_content(webpage_content: str) -> str:
@@ -63,7 +63,7 @@ def summarize_webpage_content(webpage_content: str) -> str:
     if len(webpage_content) > MAX_CONTENT_CHARS:
         truncated += "\n...[content truncated to fit token limit]"
     try:
-        structured_model = summarization_model.with_structured_output(Summary, method="json_mode")
+        structured_model = summarization_model.with_structured_output(Summary, method="json_schema", strict=True)
         summary = structured_model.invoke([
             HumanMessage(content=summarize_webpage_prompt.format(
                 webpage_content=truncated,
@@ -124,6 +124,7 @@ def format_search_output(summarized_results: dict) -> str:
 def tavily_search(
     query: str,
     max_results: Annotated[int, InjectedToolArg] = 2,
+    #max_results : int = 2,
 ) -> str:
     """Search the web for information.
 

@@ -26,7 +26,7 @@ def get_today_str() -> str:
 
 
 # ── Model ────────────────────────────────────────────────────
-model = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.0)
+model = ChatGroq(model="openai/gpt-oss-120b", temperature=0.0, reasoning_effort="low")
 
 
 # ══════════════════════════════════════════════════════
@@ -40,7 +40,7 @@ model = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.0)
 def clarify_with_user(state: AgentState) -> Command[Literal["write_research_brief", "__end__"]]:
 
     # Step 1 — attach the schema (the "form") to the model
-    structured_model = model.with_structured_output(ClarifyWithUser, method="json_mode")
+    structured_model = model.with_structured_output(ClarifyWithUser, method="json_schema", strict=True)
 
     # Step 2 — invoke with the prompt filled from state
     response = structured_model.invoke([
@@ -77,7 +77,7 @@ def clarify_with_user(state: AgentState) -> Command[Literal["write_research_brie
 def write_research_brief(state: AgentState):
 
     # Step 1 — attach the schema
-    structured_model = model.with_structured_output(ResearchQuestion)
+    structured_model = model.with_structured_output(ResearchQuestion, method="json_schema", strict=True)
 
     # Step 2 — invoke with the full conversation history
     response = structured_model.invoke([

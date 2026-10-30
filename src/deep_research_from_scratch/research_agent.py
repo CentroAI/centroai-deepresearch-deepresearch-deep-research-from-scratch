@@ -24,11 +24,11 @@ tools = [tavily_search, think_tool]
 tools_by_name = {tool.name: tool for tool in tools}
 
 # Main agent model — handles tool calling decisions
-model = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.0)
+model = ChatGroq(model="openai/gpt-oss-120b", temperature=0.0, reasoning_effort="low")
 model_with_tools = model.bind_tools(tools)
 
 # Compression model — higher token limit to avoid cutting off mid-sentence
-compress_model = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.0, max_tokens=4000)
+compress_model = ChatGroq(model="openai/gpt-oss-120b", temperature=0.0, reasoning_effort="low", max_tokens=4000)
 
 
 # ══════════════════════════════════════════════════════
