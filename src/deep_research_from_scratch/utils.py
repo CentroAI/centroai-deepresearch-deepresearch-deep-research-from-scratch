@@ -54,7 +54,7 @@ def tavily_search_multiple(
     return search_docs
 
 
-# Groq free tier: 8K TPM per model. 8 000 chars ≈ 2 000 tokens — safe margin.
+# Groq free tier: safe margin.
 MAX_CONTENT_CHARS = 8_000
 
 def summarize_webpage_content(webpage_content: str) -> str:
