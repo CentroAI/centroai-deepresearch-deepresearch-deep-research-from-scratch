@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deep Research Agent — Live Demo</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ── Sidebar: pipeline stage tracker ───────────────────────── -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">🔎</div>
+      <div>
+        <div class="brand-title">Deep Research Agent</div>
+        <div class="brand-sub">LangGraph pipeline — live demo</div>
+      </div>
+    </div>
+
+    <div class="stages">
+      <div class="stage" data-stage="clarify_with_user">
+        <div class="stage-dot"></div>
+        <div class="stage-info">
+          <div class="stage-name">1 · Clarify</div>
+          <div class="stage-desc">Is the request specific enough?</div>
+        </div>
+      </div>
+      <div class="stage-line"></div>
+
+      <div class="stage" data-stage="write_research_brief">
+        <div class="stage-dot"></div>
+        <div class="stage-info">
+          <div class="stage-name">2 · Scope</div>
+          <div class="stage-desc">Turn the chat into a research brief</div>
+        </div>
+      </div>
+      <div class="stage-line"></div>
+
+      <div class="stage" data-stage="run_research">
+        <div class="stage-dot"></div>
+        <div class="stage-info">
+          <div class="stage-name">3 · Research</div>
+          <div class="stage-desc">Search + reflect loop (tavily_search, think_tool)</div>
+        </div>
+      </div>
+      <div class="stage-line"></div>
+
+      <div class="stage" data-stage="final_report_generation">
+        <div class="stage-dot"></div>
+        <div class="stage-info">
+          <div class="stage-name">4 · Report</div>
+          <div class="stage-desc">Synthesise findings into a final report</div>
+        </div>
+      </div>
+    </div>
+
+    <button id="new-chat-btn" class="new-chat-btn">+ New conversation</button>
+
+    <div class="sidebar-footer">
+      Model: <code>gpt-4o-mini</code> · Search: <code>Tavily</code>
+    </div>
+  </aside>
+
+  <!-- ── Main: chat + report ───────────────────────────────────── -->
+  <main class="main">
+
+    <div id="chat" class="chat">
+      <div class="msg assistant">
+        <div class="msg-bubble">
+          👋 Hi! Tell me a topic you'd like researched — the more specific, the fewer
+          clarifying questions I'll need to ask before I start searching.
+        </div>
+      </div>
+    </div>
+
+    <div id="report-panel" class="report-panel hidden">
+      <div class="report-header">
+        <span>📄 Final report</span>
+        <button id="copy-report-btn" class="copy-btn">Copy</button>
+      </div>
+      <div id="report-content" class="report-content"></div>
+    </div>
+
+    <form id="chat-form" class="chat-form">
+      <input id="chat-input" type="text" placeholder="e.g. AI apps for tracking rehab exercises in children with motor difficulties" autocomplete="off" />
+      <button type="submit" id="send-btn">Send</button>
+    </form>
+
+  </main>
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
