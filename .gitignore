@@ -4,3 +4,8 @@ __pycache__
 .langgraph_api/
 deep_research_from_scratch.egg-info/
 *.pyc
+deep-research-openai-demo/.env
+deep-research-openai-demo/.venv/
+deep-research-openai-demo/src/deep_research_from_scratch/__pycache__/
+**/__pycache__/
+*.pyc

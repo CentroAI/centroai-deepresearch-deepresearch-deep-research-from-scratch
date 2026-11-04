@@ -168,6 +168,32 @@ All keys are entered directly in the configuration cell of each notebook — no 
 
 ---
 
+### 🖥️ Bonus: Live demo app (OpenAI + Flask)
+
+#### `deep-research-openai-demo/`
+**Purpose**: A small standalone Flask chatbot UI that wraps the exact pipeline built in `4_full_agent.ipynb` (`clarify_with_user → write_research_brief → run_research → final_report_generation`), for showing the agent running live in class instead of only inside a notebook.
+
+**What's different from the notebooks**:
+- Uses **OpenAI (`gpt-4o-mini`)** instead of Groq — kept separate from the main course pipeline so the notebooks' Groq setup is untouched
+- Own copy of the 4 model-using modules (`research_agent_scope.py`, `research_agent.py`, `research_agent_full.py`, `utils.py`), identical in structure to the notebook versions otherwise
+- A sidebar that lights up each LangGraph node live as it streams, so students can watch the pipeline execute stage by stage
+- Keys are kept in a local `.env` file (never committed — see `.gitignore`), not pasted into cells
+
+**Setup**: see [`deep-research-openai-demo/README.md`](./deep-research-openai-demo/README.md) for full install and run instructions. In short:
+```bash
+cd deep-research-openai-demo
+python -m venv .venv
+.venv\Scripts\activate      # Windows — macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+# copy .env.example to .env and fill in OPENAI_API_KEY / TAVILY_API_KEY
+python app.py
+```
+Then open `http://127.0.0.1:5000`.
+
+> This folder is a teaching aid for live demonstrations, not a replacement for working through the notebooks — the notebooks remain the actual course material.
+
+---
+
 ### 🎯 Learning outcomes
 
 - **Agents with LangChain**: tools, conversational memory, the Tool Use pattern
